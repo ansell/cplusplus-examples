@@ -35,3 +35,15 @@ target_link_libraries(Tutorial ${EXTRA_LIBS})
 # add the install targets
 install(TARGETS Tutorial DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
+
+# Do some testing
+
+include(CTest)
+
+# does the application run
+add_test(TutorialRuns Tutorial 25)
+
+# does the application compute square root of 25 correctly
+add_test(TutorialComp25 Tutorial 25)
+set_tests_properties(TutorialComp25 PROPERTIES PASS_REGULAR_EXPRESSION "25 is 5")
+

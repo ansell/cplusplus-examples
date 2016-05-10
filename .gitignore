@@ -35,4 +35,10 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 
+# CTest files
+CTestTestfile.cmake
+DartConfiguration.tcl
+Testing/
+
+# Install path
 target/
