@@ -8,6 +8,20 @@ project (Tutorial)
 set(Tutorial_VERSION_MAJOR 0)
 set(Tutorial_VERSION_MINOR 1)
 
+
+# does this system provide the log and exp functions
+include(CheckFunctionExists)
+#include (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+#set(CMAKE_REQUIRED_INCLUDES math.h)
+#set(CMAKE_REQUIRED_LIBRARIES m)
+# TODO: The following are not working for me currently
+check_function_exists(sqrt HAVE_SQRT)
+check_function_exists(log HAVE_LOG)
+check_function_exists(exp HAVE_EXP)
+
+# should we use our own maths functions?
+option(USE_MYMATHS "Use tutorial provided maths implementation" ON)
+
 # configure a header file to pass some of the CMake settings to the source code
 configure_file(
   "${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"
@@ -17,9 +31,6 @@ configure_file(
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
-
-# should we use our own maths functions?
-option(USE_MYMATHS "Use tutorial provided maths implementation" ON)
 
 # add the MathsFunctions library?
 if(USE_MYMATHS)
@@ -38,7 +49,8 @@ install(FILES "${PROJECT_BINARY_DIR}/TutorialConfig.h" DESTINATION include)
 
 # Do some testing
 
-include(CTest)
+#include(CTest)
+enable_testing()
 
 #define a macro to simplify adding tests, then use it
 macro (do_test arg result)
