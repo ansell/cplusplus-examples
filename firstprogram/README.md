@@ -16,4 +16,4 @@ Running tests
 
 To run tests execute the following command
 
-    cmake . && ctest .
+    cmake . && make && ctest .
