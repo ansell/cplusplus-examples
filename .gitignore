@@ -40,5 +40,10 @@ CTestTestfile.cmake
 DartConfiguration.tcl
 Testing/
 
+# CPack files
+CPackConfig.cmake
+CPackSourceConfig.cmake
+_CPack_Packages/
+
 # Install path
 target/
