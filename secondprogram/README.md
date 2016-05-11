@@ -1,6 +1,8 @@
-Roughly following the tutorial at:
+Overall structure roughly following the tutorial (with completely different implementation) at:
 
 https://cmake.org/cmake-tutorial/
+
+Includes GPL-3 code from https://github.com/jay/CSV
 
 Installation instructions
 =========================
