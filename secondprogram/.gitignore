@@ -1,7 +1,7 @@
-Tutorial
-TutorialConfig.h
-Tutorial-*.sh
-Tutorial-*.tar.Z
-Tutorial-*.tar.gz
-Tutorial-*.tar.bz2
+csvparse
+csvparseConfig.h
+csvparse-*.sh
+csvparse-*.tar.Z
+csvparse-*.tar.gz
+csvparse-*.tar.bz2
 
