@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <atomic>
 #include <math.h>
 #include "csvparseConfig.h"
 #ifdef USE_LIBCSV
@@ -10,10 +11,8 @@
   #include "CSV.hpp"
 #endif
 
-using namespace std;
-
 #ifdef USE_LIBCSV
-int parse_with_libcsv(string filename) {
+int parse_with_libcsv(std::string filename) {
     jay::util::CSVread csv_read(filename,
         jay::util::CSVread::strict_mode
         | jay::util::CSVread::text_mode
@@ -21,29 +20,35 @@ int parse_with_libcsv(string filename) {
         //| jay::util::CSVread::skip_utf8_bom_check
     );
     if(csv_read.error) {
-        cerr << "Reading CSV file failed: " << csv_read.error_msg << endl;
+        std::cerr << "Reading CSV file failed: " << csv_read.error_msg << std::endl;
         return 1;
     }
-
+    
+    std::atomic_int count(0); 
     while(csv_read.ReadRecord()) {
-        cout << endl << "Record #" << csv_read.record_num << endl;
+        count++;
+#ifndef NDEBUG
+        std::cout << std::endl << "Record #" << csv_read.record_num << std::endl;
         for(unsigned i = 0; i < csv_read.fields.size(); i++) {
-            cout << "fields[ " << i << " ]: " << csv_read.fields[ i ] << "(" << csv_read.fields[ i ].length() << ")"<< endl;
+            std::cout << "fields[ " << i << " ]: " << csv_read.fields[ i ] << "(" << csv_read.fields[ i ].length() << ")"<< std::endl;
         }
+#endif
     }
 
-    cout << endl;
+    std::cout << "Read " << count << " records" << std::endl;
+
+    std::cout << std::endl;
 
     if(csv_read.eof && (csv_read.record_num == csv_read.end_record_num)) {
-        cout << "All records read successfully. (" << csv_read.end_record_num << ")" << endl;
+        std::cout << "All records read successfully. (" << csv_read.end_record_num << ")" << std::endl;
         if(csv_read.end_record_not_terminated) {
-            cout << "WARNING: End record not terminated!" << endl;
+            std::cout << "WARNING: End record not terminated!" << std::endl;
         }
     } else if(csv_read.error) {
-        cerr << "Error: " << csv_read.error_msg << endl;
+        std::cerr << "Error: " << csv_read.error_msg << std::endl;
     }
 
-    cout << endl;
+    std::cout << std::endl;
 
     return 0;
 }
