@@ -25,7 +25,7 @@ Generate packages
 
 To generate packages for distribution execute the following command:
 
-    cmake . && cmake . && make clean install && ctest . && cpack --config CPackConfig.cmake
+    cmake -DCMAKE_BUILD_TYPE=Release . && cmake -DCMAKE_BUILD_TYPE=Release . && make clean install && ctest . && cpack --config CPackConfig.cmake
 
 To generate source packages for distribution execute the following command:
 
