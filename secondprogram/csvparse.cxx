@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <vector>
 #include <atomic>
 #include <math.h>
 #include "csvparseConfig.h"
@@ -23,10 +24,14 @@ int parse_with_libcsv(std::string filename) {
         std::cerr << "Reading CSV file failed: " << csv_read.error_msg << std::endl;
         return 1;
     }
-    
+    std::vector<std::string> headers;
     std::atomic_int count(0); 
     while(csv_read.ReadRecord()) {
-        count++;
+        if(headers.empty()) {
+            headers.insert(std::end(headers), std::begin(csv_read.fields), std::end(csv_read.fields));
+        } else {
+            count++;
+        }
 #ifndef NDEBUG
         std::cout << std::endl << "Record #" << csv_read.record_num << std::endl;
         for(unsigned i = 0; i < csv_read.fields.size(); i++) {
@@ -35,6 +40,10 @@ int parse_with_libcsv(std::string filename) {
 #endif
     }
 
+    std::cout << std::endl << "Headers were:" << std::endl;
+    for(unsigned i = 0; i < headers.size(); i++) {
+        std::cout << "[ " << i << " ]: " << headers[ i ] << "(" << headers[ i ].length() << ")"<< std::endl;
+    }
     std::cout << "Read " << count << " records" << std::endl;
 
     std::cout << std::endl;
